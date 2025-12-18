@@ -19,6 +19,5 @@ while user_guess != num:
         
     else: 
         print("Please insert a number!\n")
-        continue
     
 print(f"\n----Good job! The number was {num}----")
