@@ -26,4 +26,4 @@ while user_guess != num:
 
 end = time.perf_counter()
 print(f"\n----Good job! The number was {num}----")
-print(f"You took {guesses+1} atempts and {end - start:.2f} seconds to guess!")
+print(f"You took {guesses+1} attempts and {end - start:.2f} seconds to guess!")
