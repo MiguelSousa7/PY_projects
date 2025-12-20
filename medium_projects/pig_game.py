@@ -59,5 +59,6 @@ for p in range(players):
 
 print("\n----FINAL SCORE----")
 for player_index in range(players):
-    print(f"PLAYER_{player_index+1}: {players_score[player_index]} points\n")
+    print(f"PLAYER_{player_index+1}: {players_score[player_index]} points")
+print("\n\n")
 
