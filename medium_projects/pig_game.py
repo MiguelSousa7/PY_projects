@@ -8,12 +8,12 @@ def roll():
     return roll
 
 print("\nGame rules:")
-print("----------------------------------------")
+print("--------------------------------------------------------------------------------")
 print("Each player rolls the dice as many times has they want in their turn.")
 print("The points accumulate during the round.")
 print("If the player rolls 1 on the dice, loses all the points accumulated on the round.")
 print("Wins the first to get a total score of 50 points")
-print("----------------------------------------\n\n")
+print("--------------------------------------------------------------------------------\n\n")
 
 while True:
     players = input("Enter the number of players(2-4): ")
