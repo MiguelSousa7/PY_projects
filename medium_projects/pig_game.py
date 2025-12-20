@@ -53,9 +53,10 @@ while max(players_score) < max_score:
             print(f"PLAYER_{player_index+1}: {players_score[player_index]} points")
         print("--------------------")
 
+print("\n\n")
 for p in range(players):
     if players_score[p] >= 50:
-        print(f"\n\nPLAYER_{p+1} won the game!")
+        print(f"PLAYER_{p+1} won the game!")
 
 print("\n----FINAL SCORE----")
 for player_index in range(players):
