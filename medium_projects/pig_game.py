@@ -39,7 +39,7 @@ while max(players_score) < max_score:
                     break
                 else:
                     current_score += value
-                    print(f"Score accumulated on this round: {current_score}")
+                    print(f"Score accumulated on this round: {current_score} points")
 
             elif accept_roll in ("n", "no"):
                 break
