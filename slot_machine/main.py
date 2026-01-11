@@ -14,15 +14,57 @@ symbol_count = {
     "D": 10   # very common
 }
 
+symbol_values = {
+    "A": 10,   # 10x multyplier (jackpot symbol)
+    "B": 6,
+    "C": 3,
+    "D": 1   # very common
+}
+
 def get_slotmachine_spin(rows, cols, symbols):
     all_symbols = []
     for symbol, symbol_count in symbols.items():
         for _ in range(symbol_count):
             all_symbols.append(symbol)
     
-    columns =[[],[],[]]
+    columns =[]
 
-    
+    for _ in range(cols):
+        column = []
+        current_symbols = all_symbols[:]#copy of array
+        for _ in range(rows):
+            value = random.choice(all_symbols)
+            current_symbols.remove(value)
+            column.append(value)
+            
+        columns.append(column)
+
+    return columns
+
+def print_slot_machine(columns):
+    for row in range(len(columns[0])):
+        for i, column in enumerate(columns):
+            if i != len(columns) - 1:
+                print(column[row], end= " | ")
+            else:
+                print(column[row])
+
+
+def check_winnings(columns, lines, bet, values):
+    winnings = 0
+    winning_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_to_check = column[line]
+            if symbol != symbol_to_check:
+                break
+        
+        else:
+            winnings += values[symbol] * bet
+            winning_lines.append(line + 1)
+
+    return winnings, winning_lines
 
 def deposit():
     while True:
@@ -60,37 +102,13 @@ def get_bet():
             if MIN_BET <= amount <= MAX_BET:
                 break
             else:
-                print(f"Bet must be between ${MIN_BET} and ${MAX_BET}!")
+                print(f"\n Bet must be between ${MIN_BET} and ${MAX_BET}!\n")
         else:
             print("Please enter a number.")
         
     return amount 
 
-def main():
-    print("""
-You will be playing in a slot machine like this
-          
-        ╔════════════════════════════╗
-        ║      ★ SLOT MACHINE ★      ║
-        ╠════════════════════════════╣
-        ║    ╔═══╗  ╔═══╗  ╔═══╗     ║
-        ║    ║ A ║  ║ A ║  ║ D ║     ║
-        ║    ╚═══╝  ╚═══╝  ╚═══╝     ║
-        ║----------------------------║
-        ║    ╔═══╗  ╔═══╗  ╔═══╗     ║
-        ║    ║ B ║  ║ D ║  ║ C ║     ║
-        ║    ╚═══╝  ╚═══╝  ╚═══╝     ║
-        ║----------------------------║
-        ║    ╔═══╗  ╔═══╗  ╔═══╗     ║
-        ║    ║ D ║  ║ D ║  ║ A ║     ║
-        ║    ╚═══╝  ╚═══╝  ╚═══╝     ║ 
-        ╠════════════════════════════╣
-        ║ BALANCE: $250   BET: $25   ║
-        ╚════════════════════════════╝
-          
-""")
-
-    balance = deposit()
+def spin(balance):
     lines = get_num_lines()
     while True:
         bet = get_bet()
@@ -101,6 +119,29 @@ You will be playing in a slot machine like this
         else:
             break
 
-    print(f"You're betting ${bet} on {lines} lines. Your total bet is ${total_bet}")
+    print(f"\nYou're betting ${bet} on {lines} lines. Your total bet is ${total_bet}\n")
+
+    slots = get_slotmachine_spin(ROWS, COLS, symbol_count)
+    print_slot_machine(slots)
+    winnings, winning_lines = check_winnings(slots, lines, bet, symbol_values)
+
+    print (f"\nYou won ${winnings}!")
+    print(f"You won on lines: ", *winning_lines)
+
+    return winnings - total_bet
+
+
+
+def main():
+    balance = deposit()
+    while True:
+        print(f"Current balance is ${balance}")
+        play = input("\n----Press Enter to play or \"q\" to quit----\n").lower()
+        if play == "q":
+            break
+        balance += spin(balance)
+
+    print(f"\nYou left with ${balance}!")
+    
 
 main()
