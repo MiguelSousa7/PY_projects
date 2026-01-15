@@ -18,7 +18,7 @@ symbol_values = {
     "A": 10,   # 10x multyplier (jackpot symbol)
     "B": 6,
     "C": 3,
-    "D": 1   # very common
+    "D": 2   # very common
 }
 
 def get_slotmachine_spin(rows, cols, symbols):
