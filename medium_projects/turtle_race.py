@@ -3,7 +3,7 @@ import time
 import random
 
 WIDTH, HEIGHT = 500, 500
-colors = ["red", "cyan", "blue", "green", "purple", "pink"]
+COLORS = ["red", "cyan", "blue", "green", "purple", "pink", "orange", "yellow", "black", "brown"]
 
 def init_turtle_screen():
     screen = turtle.Screen()
@@ -24,16 +24,37 @@ def get_num_turtles():
             return turtles    
         else:
             print("\nPlease enter a number between 2 and 10!\n")
-         
+
+def create_turtles(colors):
+    turtles = []
+    spacingx = WIDTH//(len(colors)+1)
+    for i, color in enumerate(colors):
+        racer = turtle.Turtle()
+        racer.shape("turtle")
+        racer.color(color)
+        racer.penup()
+        racer.left(90)
+        racer.setpos(-WIDTH//2 + (spacingx*(i+1)), -(HEIGHT//2)+15)
+        turtles.append(racer)
+    return turtles
+
+def race(colors):
+    turtles = create_turtles(colors)
+    while True:
+        for racer in turtles:
+            distance = random.randrange(1,10)
+            racer.forward(distance)
+            _, y = racer.pos()
+            if y >= HEIGHT//2 - 10:
+                return colors[turtles.index(racer)]
+    
+
 def main():
     turtles_num = get_num_turtles()
     init_turtle_screen()
-    for racer in range(turtles_num):
-        racer = turtle.Turtle()
-        racer.shape("turtle")
-        racer.color(colors[racer])
-        racer.penup()
-        racer.forward(100)
-    time.sleep(5)
-
+    random.shuffle(COLORS)
+    colors = COLORS[:turtles_num]
+    winner = race(colors)
+    print(f"\n{winner} turtle won!\n")
+    time.sleep(4)
 main()        
