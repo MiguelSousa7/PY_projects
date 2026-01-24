@@ -1,8 +1,6 @@
 import random
 import string
 
-answer = ["yes", "y", "no", "n"]
-
 def generate_pwd(min_length, numbers=True, special_chars=True):
     letters = string.ascii_letters
     digits = string.digits
@@ -37,7 +35,7 @@ def generate_pwd(min_length, numbers=True, special_chars=True):
         
     return pwd
 
-def config():
+def pwd_config():
     pwd_length = ""
     pwd_digits = False
     pwd_special = False
@@ -75,7 +73,7 @@ def config():
 
 
 def main():
-    pwd_length, pwd_digits, pwd_special = config()
+    pwd_length, pwd_digits, pwd_special = pwd_config()
     pwd = generate_pwd(pwd_length, pwd_digits, pwd_special)
     print(f"Generated password: {pwd}")
 
