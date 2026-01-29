@@ -31,6 +31,21 @@ def create_target_dir(target):
     if not os.path.exists(target):
         os.mkdir(target)
 
+def copy_and_overwrite(source, file_path):
+    if os.path.exists(file_path):
+        shutil.rmtree(file_path)
+    shutil.copytree(source, file_path)
+
+def make_json_metadata_file(path, game_dirs):
+    data = {
+        "gameNames": game_dirs,
+        "numOfGames": len(game_dirs)
+    }
+    
+    with open(path, "w") as f:
+        json.dump(data, f)
+    
+
 def main(source, target_dir):
     cwd = os.getcwd() #obtem o diretório a partir do qual este script é executado (current working dir)
     source_path = os.path.join(cwd, source)
@@ -38,8 +53,15 @@ def main(source, target_dir):
 
     game_paths = find_all_game_paths(source_path)
     new_game_dirs = get_name_paths(game_paths, "_game")
-
+    
     create_target_dir(target_path)
+    
+    for src, dest in zip(game_paths, new_game_dirs):
+        file_path = os.path.join(target_path, dest)
+        copy_and_overwrite(src, file_path)
+
+    json_path = os.path.join(target_path, "metadata.json")
+    make_json_metadata_file(json_path, new_game_dirs)
 
 
 if __name__ == "__main__":
